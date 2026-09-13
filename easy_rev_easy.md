@@ -1,4 +1,4 @@
-# 🚩 REV_EASSY_REV
+# REV_EASSY_REV
 
 ---
 
