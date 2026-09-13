@@ -20,7 +20,7 @@
 ### Quay lại với những dấu hiệu đã tìm được lúc nãy, đầu tiên là filename, ta sẽ đặt breakpoint ở đó và xem nó chứa cái gì sau khi xử lý. 
  <img width="627" height="55" alt="image" src="https://github.com/user-attachments/assets/7b8524c1-d1af-4f79-a0bb-83e8a88b1fa8" />.
 ### Vậy là sau khi xử lý thì nó sẽ trở thành chuỗi '/proc/self/status' và cái input ban đầu của ta nhập vào cũng trở thành 'TracerPid'.
-### Em không đọc hiểu được cách LABEL_20 xử lý chuỗi tracepid nhưng ở cuối có thấy v21 có vẻ là đang ôm trạng thái có phát hiện debug hay không.
+### Dù hông đọc hiểu được cách LABEL_20 xử lý chuỗi tracepid nhưng ở cuối có thấy v21 có vẻ là đang ôm trạng thái có phát hiện debug hay không.
  <img width="827" height="117" alt="image" src="https://github.com/user-attachments/assets/52626c19-1088-450e-9208-0bf9aff9e46d" />.
 ### Việc phát hiện được như vậy còn là nhờ ở dưới đó ta có thấy một biến ôm điều kiện khác là v30, nó là kết quả phép xor giữa v21 và điều kiện thời gian nên ta đoán được điều đó.
 ### Chương trình tiếp tục dùng v30 để tính v31 và v32 băng cách xoay bit và khi v30 khác 0 (tức là thõa 1 trong 2 điều kiện phát hiện debug) thì v31 và v32 sẽ bị sai lệch đi.
