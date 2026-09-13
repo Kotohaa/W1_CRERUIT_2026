@@ -10,10 +10,11 @@
 ### Tiếp đó là phần tính toán gì đó khá là nhiều và rối nên ta tiến thẳng tới đoạn thông báo 'Wrong flag' và 'Correct', ta thấy điều kiện chỉ có if(v43)? Mà v43 ngay trên đó là addr(input_string). Chuyển sang x86 ta thấy lệnh đó là 'call rbx', nó gọi vào một thanh ghi nên rõ ràng là có một hàm ẩn tại vị trí đó.
 ### Ta liền đặt breakpoint tại đó và khi chương trình dừng tại đó mà ta step nó sẽ nhảy đến một cụm(?) gì đó và nó có mã giả như sau: 
  <img width="908" height="322" alt="image" src="https://github.com/user-attachments/assets/5c20ec6e-492a-43f1-ad84-a449d3180ea2" />.
-### Đến đây em cứ tưởng là đã xong bài vì thấy cách mà nó xử lý flag nên viết một script python để tìm flag dựa trên nội dung của hàm đó và 27 byte từ off_7FFFF7FF1040 .
+### Đến đây cứ tưởng là đã xong bài vì thấy cách mà nó xử lý flag nên ta viết một script python để tìm flag dựa trên nội dung của hàm đó và 27 byte từ off_7FFFF7FF1040 .
  <img width="962" height="198" alt="image" src="https://github.com/user-attachments/assets/908b4712-771e-4e77-a169-9d8f2180de12" />.
 ### Nhưng đời không như là mơ nên là flag đã không xuất hiện. 
- <img width="415" height="448" alt="image" src="https://github.com/user-attachments/assets/793da3a8-b2f1-413d-9cca-7677b3bd2085" />.
+ <img width="516" height="346" alt="image" src="https://github.com/user-attachments/assets/e71bb46a-a940-46c4-b2a3-d32595c627a4" />
+
  <img width="405" height="51" alt="image" src="https://github.com/user-attachments/assets/6f0a2cce-6179-4cfe-8a8c-8a063e450f24" />.
 
 ### Quay lại với những dấu hiệu đã tìm được lúc nãy, đầu tiên là filename, ta sẽ đặt breakpoint ở đó và xem nó chứa cái gì sau khi xử lý. 
@@ -23,12 +24,13 @@
  <img width="827" height="117" alt="image" src="https://github.com/user-attachments/assets/52626c19-1088-450e-9208-0bf9aff9e46d" />.
 ### Việc phát hiện được như vậy còn là nhờ ở dưới đó ta có thấy một biến ôm điều kiện khác là v30, nó là kết quả phép xor giữa v21 và điều kiện thời gian nên ta đoán được điều đó.
 ### Chương trình tiếp tục dùng v30 để tính v31 và v32 băng cách xoay bit và khi v30 khác 0 (tức là thõa 1 trong 2 điều kiện phát hiện debug) thì v31 và v32 sẽ bị sai lệch đi.
- <img width="1085" height="87" alt="image" src="https://github.com/user-attachments/assets/28de056b-ae51-41ac-adfe-7216755d6eb8" />
+ <img width="1085" height="87" alt="image" src="https://github.com/user-attachments/assets/28de056b-ae51-41ac-adfe-7216755d6eb8" />.
 ### Và ở vòng lặp cuối, v32 sẽ mã hóa sai lệch toàn bộ 91 byte shellcode sinh ra trên RAM nên lệnh tính v43 (call rbx) nhảy vào một vùng nhớ chứa rác rồi mảng dữ liệu đích off_7FFFF7FF1040 bị sai lệch nên lúc nãy ta không giải ra được.
 ### Giờ ta thử debug lại nhưng lần này đặt break point sau khi tính v30 xong để modify giá trị của v30 thành 0 (hay thanh ghi RBP) rồi mới nhảy tiếp lệnh call RBX vào hàm ẩn.
 ### Lúc này ta thấy 27 bytes tại vị trí off_7FFFF7FF1040 đã thay đổi so với ban đầu, ta sẽ đem dãy bytes này giải mã lại bằng script lúc nãy và cuối cùng kết quả thu đươc là flag.
  <img width="942" height="607" alt="image" src="https://github.com/user-attachments/assets/902b72d0-5518-4848-bdcd-8a2780baf2cb" />.
  <img width="536" height="373" alt="image" src="https://github.com/user-attachments/assets/d433ab3a-da01-4623-92bd-82ef2a07aa14" />.
+ 
  <img width="376" height="116" alt="image" src="https://github.com/user-attachments/assets/11093a84-7032-4e21-94cb-3fd5868f0f75" />.
 
 
